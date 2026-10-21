@@ -17,6 +17,8 @@ Target OS: Windows 11. Expected sources: Samsung phones and Sony cameras (JPEG).
 | Image processing | sharp (libvips), runs in the main process |
 | Persistence | JSON files in `%APPDATA%/images-for-socials/` (settings, profiles, session state) |
 | Drag-reorder | vue-draggable-plus (SortableJS) |
+| Translations (i18n) | vue-i18n. Message files (`locales/<lang>.json`) are shared with the main process for native dialogs, notifications and the "Send to" entry |
+| Code quality | ESLint (flat config, typescript-eslint, eslint-plugin-vue) + Prettier (eslint-config-prettier so they don't conflict). Format on save, checked in CI |
 | Tests | Vitest (unit + golden-image tests), Playwright (Electron E2E) |
 | Packaging | electron-builder → NSIS installer |
 | Updates | electron-updater |
@@ -168,6 +170,7 @@ Renderer has no Node access; all filesystem / processing goes through a typed IP
 - **Startup profile**.
 - **Profile management** (rename, duplicate, delete, import/export profile as JSON).
 - **Theme**: follow system (default) / light / dark.
+- **Language**: follow system (default, falls back to English) / English / Lietuvių. Changes apply immediately, without restarting.
 - **Windows integration**: toggle for the Explorer "Send to → Images for Socials" entry (section 10).
 - **Updates**: check automatically toggle (default on), "Check now" button, current version, link to release notes.
 - **About**: version, license, link to the GitHub repo and issue tracker.
@@ -188,7 +191,13 @@ Renderer has no Node access; all filesystem / processing goes through a typed IP
 - Unit tests for the border geometry, resize maths, suffix/file-name logic and collision handling.
 - Golden-image tests for the full pipeline (EXIF rotation, colour profile conversion, transparency fill).
 - A few Playwright E2E tests (import → export).
-- ESLint + Prettier, strict TypeScript.
+- ESLint + Prettier, strict TypeScript. A pre-commit hook (husky + lint-staged) formats and lints changed files.
+- Every user-facing string goes through i18n. A lint rule flags hard-coded text in templates, and a test checks that every language file has the same keys as English.
+- Numbers, file sizes and dates are formatted for the selected language.
+- v1 languages: **English** (`en`, source language) and **Lithuanian** (`lt`).
+  - Lithuanian has three plural forms ("1 nuotrauka", "2 nuotraukos", "10 nuotraukų"), so vue-i18n gets a custom Lithuanian plural rule, with tests.
+  - UI layouts must allow for longer text, since Lithuanian strings are often longer than English.
+  - Both languages are updated in the same milestone as the feature they belong to.
 - Local log file in `%APPDATA%/images-for-socials/logs/` with a "Show logs" button in Settings, to help diagnose failed exports. Logs never contain image contents.
 - No telemetry or analytics. The only network request is the update check.
 
@@ -201,7 +210,7 @@ Renderer has no Node access; all filesystem / processing goes through a typed IP
 - Public GitHub repository. Default branch `main`.
 - License: MIT. sharp (Apache-2.0) and libvips (LGPL-3.0, dynamically linked) are compatible with it.
 - `README.md`: what the app does, screenshots, download link, build-from-source steps.
-- `CONTRIBUTING.md`: dev setup, scripts, code style, how to add a new processing step.
+- `CONTRIBUTING.md`: dev setup, scripts, code style, how to add a new processing step, how to add a translation.
 - `CHANGELOG.md`, kept in "Keep a Changelog" format.
 - Issue templates (bug report, feature request) and a pull request template.
 - `THIRD_PARTY_NOTICES` generated from dependency licenses and shipped with the installer.
@@ -226,14 +235,13 @@ Renderer has no Node access; all filesystem / processing goes through a typed IP
 - HEIC/HEIF and RAW input (the user is warned, see section 3)
 - Per-image parameter overrides
 - More steps (watermark, crop, filters)
-- Translations (UI is English-only, but strings are kept in one place so i18n can be added)
 - macOS / Linux builds (nothing Windows-only in the core, so these are mostly packaging work)
 
 ---
 
 ## 14. Build milestones
 
-1. Project setup: electron-vite + Vue + TS, lint, test setup, layout outline, LICENSE, README stub, CI for lint + tests
+1. Project setup: electron-vite + Vue + TS, ESLint + Prettier + pre-commit hook, vue-i18n with English + Lithuanian, test setup, layout outline, LICENSE, README stub, CI for lint + tests
 2. Import + image grid + unsupported-file warnings
 3. Pipeline framework (step modules, reorder, common toggles, suffix logic)
 4. Normalisation + Border step + Resize step, with tests
@@ -241,6 +249,6 @@ Renderer has no Node access; all filesystem / processing goes through a typed IP
 6. Export / Export as… (locations, formats, quality, collisions, progress, cancel, error summary)
 7. Profiles, saved state, non-default highlighting, reset
 8. Settings screen
-9. Packaging (NSIS installer) + single instance + Explorer "Send to"
+9. Packaging (NSIS installer in English + Lithuanian) + single instance + Explorer "Send to"
 10. Release pipeline (tagged builds → GitHub Releases) + auto-update + logging
 11. Open-source polish: README with screenshots, CONTRIBUTING, templates, third-party notices, v1.0.0 release
