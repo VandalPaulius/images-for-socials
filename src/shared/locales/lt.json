@@ -1,0 +1,38 @@
+{
+  "app": {
+    "title": "Images for Socials",
+    "version": "Versija {version}"
+  },
+  "header": {
+    "settings": "Nustatymai"
+  },
+  "import": {
+    "title": "Nuotraukos",
+    "dropHint": "Nutempkite nuotraukas ar aplankus čia",
+    "addImages": "Pridėti nuotraukų",
+    "clearAll": "Išvalyti viską",
+    "count": "{n} nuotrauka | {n} nuotraukos | {n} nuotraukų",
+    "empty": "Nuotraukų dar nepridėta"
+  },
+  "preview": {
+    "title": "Peržiūra",
+    "empty": "Pasirinkite nuotrauką, kad ją čia peržiūrėtumėte"
+  },
+  "profile": {
+    "label": "Profilis",
+    "factory": "Gamyklinis"
+  },
+  "steps": {
+    "title": "Apdorojimo žingsniai",
+    "border": "Pridėti rėmelį",
+    "resize": "Keisti dydį"
+  },
+  "output": {
+    "title": "Eksporto formatas"
+  },
+  "actions": {
+    "resetToProfile": "Atstatyti profilio nustatymus",
+    "export": "Eksportuoti",
+    "exportAs": "Eksportuoti kaip…"
+  }
+}

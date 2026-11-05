@@ -1,0 +1,38 @@
+{
+  "app": {
+    "title": "Images for Socials",
+    "version": "Version {version}"
+  },
+  "header": {
+    "settings": "Settings"
+  },
+  "import": {
+    "title": "Images",
+    "dropHint": "Drop images or folders here",
+    "addImages": "Add images",
+    "clearAll": "Clear all",
+    "count": "{n} image | {n} images",
+    "empty": "No images added yet"
+  },
+  "preview": {
+    "title": "Preview",
+    "empty": "Select an image to preview it here"
+  },
+  "profile": {
+    "label": "Profile",
+    "factory": "Factory"
+  },
+  "steps": {
+    "title": "Processing steps",
+    "border": "Add border",
+    "resize": "Resize"
+  },
+  "output": {
+    "title": "Output format"
+  },
+  "actions": {
+    "resetToProfile": "Reset to profile",
+    "export": "Export",
+    "exportAs": "Export as…"
+  }
+}

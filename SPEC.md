@@ -8,20 +8,20 @@ Target OS: Windows 11. Expected sources: Samsung phones and Sony cameras (JPEG).
 
 ## 1. Tech stack
 
-| Concern | Choice |
-|---|---|
-| Shell | Electron |
-| Build tooling | electron-vite (Vite for main / preload / renderer) |
-| UI | Vue 3 (Composition API, `<script setup>`) + TypeScript |
-| State | Pinia |
-| Image processing | sharp (libvips), runs in the main process |
-| Persistence | JSON files in `%APPDATA%/images-for-socials/` (settings, profiles, session state) |
-| Drag-reorder | vue-draggable-plus (SortableJS) |
-| Translations (i18n) | vue-i18n. Message files (`locales/<lang>.json`) are shared with the main process for native dialogs, notifications and the "Send to" entry |
-| Code quality | ESLint (flat config, typescript-eslint, eslint-plugin-vue) + Prettier (eslint-config-prettier so they don't conflict). Format on save, checked in CI |
-| Tests | Vitest (unit + golden-image tests), Playwright (Electron E2E) |
-| Packaging | electron-builder → NSIS installer |
-| Updates | electron-updater |
+| Concern             | Choice                                                                                                                                               |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Shell               | Electron                                                                                                                                             |
+| Build tooling       | electron-vite (Vite for main / preload / renderer)                                                                                                   |
+| UI                  | Vue 3 (Composition API, `<script setup>`) + TypeScript                                                                                               |
+| State               | Pinia                                                                                                                                                |
+| Image processing    | sharp (libvips), runs in the main process                                                                                                            |
+| Persistence         | JSON files in `%APPDATA%/images-for-socials/` (settings, profiles, session state)                                                                    |
+| Drag-reorder        | vue-draggable-plus (SortableJS)                                                                                                                      |
+| Translations (i18n) | vue-i18n. Message files (`locales/<lang>.json`) are shared with the main process for native dialogs, notifications and the "Send to" entry           |
+| Code quality        | ESLint (flat config, typescript-eslint, eslint-plugin-vue) + Prettier (eslint-config-prettier so they don't conflict). Format on save, checked in CI |
+| Tests               | Vitest (unit + golden-image tests), Playwright (Electron E2E)                                                                                        |
+| Packaging           | electron-builder → NSIS installer                                                                                                                    |
+| Updates             | electron-updater                                                                                                                                     |
 
 Renderer has no Node access; all filesystem / processing goes through a typed IPC bridge in the preload script.
 
@@ -93,7 +93,7 @@ Renderer has no Node access; all filesystem / processing goes through a typed IP
 
 ### 4.2 Step: Add border
 
-- **Padding %** (default 10%, slider + number input). Padding = `pct × longer side`. This is the *minimum* gap between the image and every canvas edge.
+- **Padding %** (default 10%, slider + number input). Padding = `pct × longer side`. This is the _minimum_ gap between the image and every canvas edge.
 - **Target aspect ratio**: 1:1 (default), 4:5, 3:4, plus custom W:H.
 - The canvas is the smallest size with the target ratio where `W ≥ w + 2p` and `H ≥ h + 2p`. The image is centred on it.
   - Example: 3000×2000 at 10% and 1:1 → p = 300 → canvas 3600×3600.
@@ -102,8 +102,8 @@ Renderer has no Node access; all filesystem / processing goes through a typed IP
 ### 4.3 Step: Resize
 
 - **Mode**:
-  - *Fit within W×H* (default): keeps the aspect ratio and makes the image as large as possible inside the box. Width and height are linked when the box is square. Default 2000×2000. Presets: 1080×1080, 1080×1350, 1080×1440, 2000×2000.
-  - *Scale by %*: keeps the aspect ratio.
+  - _Fit within W×H_ (default): keeps the aspect ratio and makes the image as large as possible inside the box. Width and height are linked when the box is square. Default 2000×2000. Presets: 1080×1080, 1080×1350, 1080×1440, 2000×2000.
+  - _Scale by %_: keeps the aspect ratio.
 - **Stretch to fill** toggle (default off).
   - Off: images smaller than the box are left at their size.
   - On: they are enlarged to fit the box, always keeping the aspect ratio. The image is never distorted.
